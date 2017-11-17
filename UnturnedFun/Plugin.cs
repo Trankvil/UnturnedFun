@@ -1,12 +1,6 @@
 ﻿using System;
 using Rocket.API.Collections;
 using Rocket.Core.Plugins;
-using Rocket.Unturned;
-using Rocket.Unturned.Player;
-using Rocket.Unturned.Chat;
-using UnityEngine;
-using Rocket.Core.Logging;
-using SDG.Unturned;
 using Rocket.API;
 using System.Xml.Serialization;
 using System.Collections.Generic;
@@ -15,18 +9,20 @@ using System.Net.Security;
 using System.Net;
 using System.IO;
 
-namespace UnturnedFun
-{
-    public class Plugin : RocketPlugin<Configuration>
-    {
+namespace UnturnedFun {
+    public class Plugin : RocketPlugin<Configuration> {
         public static Plugin Instance = null;
         public Database Database;
-        public override TranslationList DefaultTranslations
-        {
-            get
-            {
+        public override TranslationList DefaultTranslations {
+            get {
                 return new TranslationList() {
-                    { "", "" },
+                    { "vote_yes_reply", "Вы уже голосовали за сервер, и получили бонусные вещи." },
+                    { "vote_exp", "Вы получили [{0}] опыта."},
+                    { "vote_uconomy", "Вы получили [{0}] {1}"},
+                    { "vote_realmoney", "Вы получили на сайт [{0}] рублей."},
+                    { "vote_give_reward", "{0} за голосование получил набор \"{1}\""},
+                    { "vote_not_vote", "Вы не голосовали за сервер, чтобы получить бонусные вещи."},
+                    { "vote_error", "Ошибка в получении данных от мониторинга!"},
                 };
             }
         }

@@ -46,7 +46,7 @@ namespace UnturnedFun {
             string answer = Plugin.Instance.ApiVotePlayer(player.CSteamID.ToString());
             switch (answer) {
                 case "0":
-                    UnturnedChat.Say(player, "Вы уже голосовали за сервер, и получили бонусные вещи.");
+                    UnturnedChat.Say(player, Plugin.Instance.Translate("vote_yes_reply"));
                     break;
                 case "1":
                     int propabilysum = Plugin.Instance.Configuration.Instance.RewardBundles.Sum(p => p.Probability);
@@ -67,7 +67,7 @@ namespace UnturnedFun {
                     }
                     if (bundle.Exp != 0) {
                         player.Experience += bundle.Exp;
-                        UnturnedChat.Say(player, "Вы получили ["+bundle.Exp+"] опыта.");
+                        UnturnedChat.Say(player, Plugin.Instance.Translate("vote_exp", bundle.Exp));
                     }
                     Plugin.ExecuteDependencyCode("Uconomy", (IRocketPlugin plugin) =>
                     {
@@ -75,13 +75,13 @@ namespace UnturnedFun {
                         {   
                             Uconomy.Instance.Database.IncreaseBalance(player.CSteamID.ToString(), Convert.ToDecimal(bundle.Uconomy));
                         //ASPUnturnedMySQL.Plugin.Instance.IncreaseBalance(player.CSteamID.ToString(), Convert.ToDecimal(bundle.Uconomy));
-                        UnturnedChat.Say(player, "Вы получили [" + bundle.Exp + "] " + Uconomy.Instance.Configuration.Instance.MoneyName);
+                        UnturnedChat.Say(player, Plugin.Instance.Translate("vote_uconomy" , bundle.Exp, Uconomy.Instance.Configuration.Instance.MoneyName));
                         }
                     });
                     if (bundle.RealMoney != 0) {
                         if(Plugin.Instance.Database.IsSiteSteamID(player.CSteamID.ToString())) {
                             Plugin.Instance.Database.AddRealMoneySteamID(player.CSteamID.ToString(), bundle.RealMoney);
-                            UnturnedChat.Say(player, "Вы получили на сайт ["+bundle.RealMoney+"] рублей.");
+                            UnturnedChat.Say(player, Plugin.Instance.Translate("vote_realmoney", bundle.RealMoney));
                         }
                     }
                     foreach (Reward reward in bundle.Rewards) {
@@ -89,13 +89,13 @@ namespace UnturnedFun {
                             Logger.Log("error add item "+ reward.ItemId + " to " + player.CSteamID.ToString());
                         }
                     }
-                    UnturnedChat.Say(player.DisplayName + " за голосование получил набор \""+ bundle.Name + "\"");
+                    UnturnedChat.Say(Plugin.Instance.Translate("vote_give_reward", player.DisplayName, bundle.Name));
                     break;
                 case "2":
-                    UnturnedChat.Say(player, "Вы не голосовали за сервер, чтобы получить бонусные вещи.");
+                    UnturnedChat.Say(player, Plugin.Instance.Translate("vote_not_vote"));
                     break;
                 default:
-                    UnturnedChat.Say(player, "Ошибка в получении данных от мониторинга!", UnityEngine.Color.red);
+                    UnturnedChat.Say(player, Plugin.Instance.Translate("vote_error"), UnityEngine.Color.red);
                     break;
             }
         }
